@@ -58,7 +58,7 @@ mot = choice(L)
 trouve = [mot[0]] # liste des lettres contenant les lettres valides qu'on a trouvé
 rate = [] # liste des essais ratés
 essai = 0
-secondes = 20
+secondes = 120
 
 def btn_press():
 
