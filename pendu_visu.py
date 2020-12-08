@@ -51,14 +51,15 @@ def write_devine(mot,trouve):
     return devine
 
 #Initialisation du jeu
-meilleurscore=8
 L=recup_mots()
 reussi = False
+echoue = False
 mot = choice(L)
 trouve = [mot[0]] # liste des lettres contenant les lettres valides qu'on a trouvé
 rate = [] # liste des essais ratés
 essai = 0
 secondes = 120
+meilleurscore=secondes
 
 def btn_press():
 
@@ -69,7 +70,8 @@ def btn_press():
 
 def maj():
     global secondes
-    if secondes > 0 and (not reussi):
+    if secondes > 0 and (not reussi) and (not echoue):
+        print(echoue)
         secondes -=1
         label_secondes['text'] = 'Temps restant : '+strftime('%Mmin %Ssec',gmtime(secondes))
     elif not reussi:
@@ -186,16 +188,24 @@ def change_bonhomme(essai):
     nb_essais['text'] = "Essais restants : "+ str(7-essai)
 
 def game_over():
+    echoue = True
     btn_propose["text"] = 'Recommencer'
     indices['text'] = "GAME OVER, le mot était "+mot
+    label_secondes['text'] = 'Votre meilleur score est de : '+strftime('%Mmin %Ssec',gmtime(meilleurscore))
 
 def you_win():
+    global meilleurscore
     btn_propose["text"] = 'Recommencer'
     indices['text'] = "Bravo !"
 
+    if (120 - secondes) < meilleurscore:
+        meilleurscore = 120 - secondes
+    label_secondes['text'] = 'Votre meilleur score est de : '+strftime('%Mmin %Ssec',gmtime(meilleurscore))
+
 def try_again():
-    global mot,reussi,trouve,essai,rate,secondes
+    global mot,reussi,trouve,essai,rate,secondes,echoue
     reussi = False
+    echoue = False
     mot = choice(L)
     trouve = [mot[0]]
     rate = []
