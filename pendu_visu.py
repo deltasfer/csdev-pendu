@@ -70,12 +70,13 @@ def btn_press():
 
 def maj():
     global secondes
+
     if secondes > 0 and (not reussi) and (not echoue):
-        print(echoue)
         secondes -=1
         label_secondes['text'] = 'Temps restant : '+strftime('%Mmin %Ssec',gmtime(secondes))
     elif not reussi:
         game_over()
+
     fen.after(1000,maj)
 
 
@@ -188,6 +189,7 @@ def change_bonhomme(essai):
     nb_essais['text'] = "Essais restants : "+ str(7-essai)
 
 def game_over():
+    global echoue
     echoue = True
     btn_propose["text"] = 'Recommencer'
     indices['text'] = "GAME OVER, le mot était "+mot
@@ -210,9 +212,11 @@ def try_again():
     trouve = [mot[0]]
     rate = []
     essai = 0
+    change_bonhomme(essai)
     btn_propose["text"] = 'Proposer lettre'
     mot_affiche['text'] = write_devine_avec_espaces(mot,trouve)
     indices['text'] = "Entrez une lettre et appuyez sur Proposer"
+    nb_essais['text'] = "Essais restants : 7"
     lettres_testes['text'] = 'Lettres testées '+str(rate)
     secondes = 120
 
