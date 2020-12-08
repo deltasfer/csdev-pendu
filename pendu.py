@@ -1,4 +1,10 @@
 #Header
+
+"""
+TP2 version console AIVAZIAN OLIVIER
+lien du github : https://github.com/deltasfer/csdev-pendu
+"""
+
 #importation des fonction
 from random import *
 from tkinter import Tk,Button,StringVar,Entry

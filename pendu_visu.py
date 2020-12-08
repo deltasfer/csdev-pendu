@@ -1,7 +1,15 @@
 #Header
+
+"""
+TP2 version Tkinter AIVAZIAN OLIVIER
+lien du github : https://github.com/deltasfer/csdev-pendu
+"""
+
 #importation des fonction
 from random import *
 from tkinter import Tk,Button,Entry,Label,Frame,Canvas,PhotoImage
+from time import strftime,gmtime
+
 
 
 #recup_mots
@@ -50,6 +58,7 @@ mot = choice(L)
 trouve = [mot[0]] # liste des lettres contenant les lettres valides qu'on a trouvé
 rate = [] # liste des essais ratés
 essai = 0
+secondes = 20
 
 def btn_press():
 
@@ -60,9 +69,12 @@ def btn_press():
 
 def maj():
     global secondes
-    if secondes > 0:
+    if secondes > 0 and (not reussi):
         secondes -=1
-    fen.after(1,maj)
+        label_secondes['text'] = 'Temps restant : '+strftime('%Mmin %Ssec',gmtime(secondes))
+    elif not reussi:
+        game_over()
+    fen.after(1000,maj)
 
 
 ### INITIALISATION FENETRE
@@ -75,11 +87,10 @@ fen.title("Pendu")
 fen.geometry('600x300')
 fen.configure(bg=couleur)
 
-secondes = 1500
-maj()
 
 # mot à trouver
-mot_affiche = Label(fen,text=write_devine_avec_espaces(mot,trouve),bg=couleur,fg="white")
+mot_affiche = Label(fen,text=write_devine_avec_espaces(mot,trouve),bg=couleur,fg="white",width=35)
+mot_affiche.config(font=("Courier", 10))
 #mot_affiche.pack(side="left")
 mot_affiche.grid(row=1,column=1)
 
@@ -113,7 +124,7 @@ btnQuit = Button(fen,text="Quitter le pendu",fg='red',command=fen.destroy)
 btnQuit.grid(row=4,column=1)
 
 # temps restant
-label_secondes = Label(fen,text=str(secondes),bg=couleur,fg="cyan")
+label_secondes = Label(fen,text='Temps restant : '+strftime('%Mmin %Ssec',gmtime(secondes)),bg=couleur,fg="cyan")
 label_secondes.grid(row=4,column=1,sticky="S")
 
 
@@ -131,12 +142,13 @@ for i in range(1,9):
 imagependu= Canevas.create_image(hauteur/2,largeur/2,image=images[0])
 Canevas.grid(row=1,column=2,rowspan=4,padx=10,pady=10,sticky="E")
 
+maj()
 
 
 def verify_lettre():
     global reussi,mot,trouve,essai,rate
 
-    if heure > 0:
+    if secondes > 0:
 
         lettre = entry.get()[0]
 
@@ -192,8 +204,7 @@ def try_again():
     mot_affiche['text'] = write_devine_avec_espaces(mot,trouve)
     indices['text'] = "Entrez une lettre et appuyez sur Proposer"
     lettres_testes['text'] = 'Lettres testées '+str(rate)
-    secondes = 1500
-    maj()
+    secondes = 120
 
 
 
