@@ -22,7 +22,7 @@ def recup_mots():
     fich=open("mots.txt","r")
     L=fich.read()[:-1]
     L=L.split(",")
-    print(L)
+    #print(L)
     fich.close()
 
     #trie des éléments selon leur ordres alphabétiques
